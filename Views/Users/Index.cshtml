@@ -1,0 +1,101 @@
+﻿@using MyAspTest.ViewModel
+@*@model IEnumerable<MyAspTest.Models.User>*@  
+@model IndexViewModel
+@addTagHelper *, MyAspTest
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@*<form method="get">
+    <div class="form-inline form-group">
+        <label class="control-label">Имя: </label>
+        <input name="name" class="form-control" />
+
+        <label class="control-label">Компания: </label>
+        <select name="company" asp-items="Model.Users" class="form-control"></select>
+
+        <input type="submit" value="Фильтр" class="btn btn-default" />
+    </div>
+</form>*@
+
+<style>
+    @@font-face{font-family:'FontAwesome';src:url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2') format('woff2'),
+                                              url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff') format('woff'),
+                                              url('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/fonts/fontawesome-webfont.ttf') format('truetype');font-weight:normal;font-style:normal}
+    .glyphicon {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale
+    }
+    .glyphicon-chevron-down:before {
+        content: "\f078";
+    }
+ 
+    .glyphicon-chevron-up:before {
+        content: "\f077";
+    }
+</style>
+
+<h1>Главная</h1>
+
+<p>
+    <a asp-controller="UserViewModels" asp-action="Create">Добавить пользователя</a>
+</p>
+
+<p>
+    <a asp-controller="Users" asp-action="FilteredIndex">Список Пользователей с фильтрами</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <sort-header action="Index" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current" property="@Model.SortViewModel.NameSort"></sort-header>
+                Имя
+            </th>
+            <th>
+                Фамилия
+            </th>
+            <th>
+                Телефон
+            </th>
+            <th>
+                Должность
+            </th>
+            <th>
+                Статус
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Users) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Position.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status.Name)
+            </td>
+            <td>
+                <a asp-controller="UserViewModels" asp-action="Edit" asp-route-id="@item.ID" asp-route-infoId="@item.UserInfoId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-controller="UserViewModels" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

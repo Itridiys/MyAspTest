@@ -1,0 +1,39 @@
+﻿@model MyAspTest.ViewModel.UserFilterViewModel
+
+@{
+    ViewBag.Title = "Каталог пользователей";
+}
+
+<h2>Каталог пользователей</h2>
+
+<form method="get">
+    <div class="form-inline form-group">
+        <label class="control-label">Имя: </label>
+        <input name="name" class="form-control" />
+
+        <label class="control-label">Должность: </label>
+        <select name="company" asp-items="Model.PositionSelectList" class="form-control"></select>
+
+        <label class="control-label">Статус: </label>
+        <select name="company" asp-items="Model.StatusList" class="form-control"></select>
+
+        <input type="submit" value="Фильтр" class="btn btn-default" />
+    </div>
+</form>
+
+<table class="table table-striped">
+    <tr>
+        <th>Имя</th>
+        <th>Должность</th>
+        <th>Статус</th>
+    </tr>
+
+    @foreach (var item in Model.Users)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Position.Name</td>
+            <td>@item.Status.Name</td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,58 @@
+﻿@model IEnumerable<MyAspTest.Models.Position>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Вакансии</h1>
+
+<p>
+    <a asp-action="Create">Создать вакансию</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Должность
+            </th>
+            <th>
+                Зарплата
+            </th>
+            <th>
+                Колличество вакансий
+            </th>
+            <th>
+                Занято вакансий
+            </th>
+            <th>
+                Отдел
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Salary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PositionUsers.Count)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Department.Name)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
