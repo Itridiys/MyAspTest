@@ -56,6 +56,8 @@ namespace MyAspTest.Controllers
             users = sortOrder switch
             {
                 SortState.NameDesc => users.OrderByDescending(s => s.Name),
+                SortState.SurNameAsc => users.OrderBy(s => s.Surname),
+                SortState.SurNameDesc => users.OrderByDescending(s => s.Surname),
                 _ => users.OrderBy(s => s.Name),
             };
             IndexViewModel viewModel = new IndexViewModel
@@ -64,7 +66,7 @@ namespace MyAspTest.Controllers
                 SortViewModel = new SortViewModel(sortOrder)
             };
 
-            var appDbContext = _context.Users.Include(u => u.Position).Include(u => u.Status);
+            //var appDbContext = _context.Users.Include(u => u.Position).Include(u => u.Status);
             //await appDbContext.ToListAsync()
             return View(viewModel);
         }

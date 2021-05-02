@@ -9,8 +9,7 @@ namespace MyAspTest.ViewModel
     public class SortViewModel
     {
         public SortState NameSort { get; set; } // значение для сортировки по имени
-        public SortState AgeSort { get; set; }    // значение для сортировки по возрасту
-        public SortState CompanySort { get; set; }   // значение для сортировки по компании
+        public SortState SurNameSort { get; set; }
         public SortState Current { get; set; }     // значение свойства, выбранного для сортировки
         public bool Up { get; set; }  // Сортировка по возрастанию или убыванию
 
@@ -18,11 +17,10 @@ namespace MyAspTest.ViewModel
         {
             // значения по умолчанию
             NameSort = SortState.NameAsc;
-            //AgeSort = SortState.AgeAsc;
-            //CompanySort = SortState.CompanyAsc;
+            SurNameSort = SortState.SurNameAsc;
             Up = true;
 
-            if (sortOrder == SortState.NameDesc)
+            if (sortOrder == SortState.NameDesc || sortOrder == SortState.SurNameDesc)
             {
                 Up = false;
             }
@@ -32,18 +30,12 @@ namespace MyAspTest.ViewModel
                 case SortState.NameDesc:
                     Current = NameSort = SortState.NameAsc;
                     break;
-                //case SortState.AgeAsc:
-                //    Current = AgeSort = SortState.AgeDesc;
-                //    break;
-                //case SortState.AgeDesc:
-                //    Current = AgeSort = SortState.AgeAsc;
-                //    break;
-                //case SortState.CompanyAsc:
-                //    Current = CompanySort = SortState.CompanyDesc;
-                //    break;
-                //case SortState.CompanyDesc:
-                //    Current = CompanySort = SortState.CompanyAsc;
-                //    break;
+                case SortState.SurNameDesc:
+                    Current = SurNameSort = SortState.SurNameAsc;
+                    break;
+                case SortState.SurNameAsc:
+                    Current = SurNameSort = SortState.SurNameDesc;
+                    break;
                 default:
                     Current = NameSort = SortState.NameDesc;
                     break;
