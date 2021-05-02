@@ -27,7 +27,7 @@ namespace MyAspTest.Controllers
             return View();
         }
 
-        // GET: UserViewModelsController/Details/5
+        // GET: UserViewModelsController/Details
         public ActionResult Details(int id)
         {
             return View();
@@ -73,7 +73,7 @@ namespace MyAspTest.Controllers
             
         }
 
-        // GET: UserViewModelsController/Edit/5
+        // GET: UserViewModelsController/Edit
         public async Task<IActionResult> Edit(int? id, int? infoId)
         {
             if (id == null)
@@ -103,7 +103,7 @@ namespace MyAspTest.Controllers
             return View(viewUsers);
         }
 
-        // POST: UserViewModelsController/Edit/5
+        // POST: UserViewModelsController/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id,  [Bind("ID,Name,Surname,Phone,PositionId,StatusId")] User user,
@@ -154,7 +154,7 @@ namespace MyAspTest.Controllers
             return View();
         }
 
-        // GET: UserViewModelsController/Delete/5
+        // GET: UserViewModelsController/Delete
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -174,7 +174,7 @@ namespace MyAspTest.Controllers
             return View(user);
         }
 
-        // POST: UserViewModelsController/Delete/5
+        // POST: UserViewModelsController/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
