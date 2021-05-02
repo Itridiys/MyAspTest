@@ -24,7 +24,7 @@ namespace MyAspTest.Controllers
             return View(await appDbContext.ToListAsync());
         }
 
-        // GET: Positions/Details/5
+        // GET: Positions/Details
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -50,9 +50,7 @@ namespace MyAspTest.Controllers
             return View();
         }
 
-        // POST: Positions/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Positions/Create        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Salary,MaxNumber,DepartmentId")] Position position)
@@ -84,9 +82,7 @@ namespace MyAspTest.Controllers
             return View(position);
         }
 
-        // POST: Positions/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Positions/Edit       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Salary,MaxNumber,DepartmentId")] Position position)
@@ -120,7 +116,7 @@ namespace MyAspTest.Controllers
             return View(position);
         }
 
-        // GET: Positions/Delete/5
+        // GET: Positions/Delete
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -139,7 +135,8 @@ namespace MyAspTest.Controllers
             return View(position);
         }
 
-        // POST: Positions/Delete/5
+        // POST: Positions/Delete
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

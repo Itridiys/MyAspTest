@@ -33,17 +33,18 @@ namespace MyAspTest.Controllers
             }
 
             List<Position> positions = _context.Positions.ToList();
-            // устанавливаем начальный элемент, который позволит выбрать всех
+            
             positions.Insert(0, new Position() { Name = "Все", Id = 0 });
 
             List<Status> status = _context.Statuses.ToList();
             status.Insert(0, new Status { Name = "Все", Id = 0 });
+            
 
             UserFilterViewModel viewModel = new UserFilterViewModel
             {
                 Users = users.ToList(),
                 PositionSelectList = new SelectList(positions, "Id", "Name"),
-                StatusList = new SelectList(positions, "Id", "Name")
+                StatusList = new SelectList(status, "Id", "Name") 
             };
             return View(viewModel);
         }
@@ -71,7 +72,7 @@ namespace MyAspTest.Controllers
             return View(viewModel);
         }
 
-        // GET: Users/Details/5
+        // GET: Users/Details
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -99,9 +100,7 @@ namespace MyAspTest.Controllers
             return View();
         }
 
-        // POST: Users/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Users/Create        /    
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Name,Surname,Phone,PositionId,StatusId")] User user)
@@ -117,7 +116,7 @@ namespace MyAspTest.Controllers
             return View(user);
         }
 
-        // GET: Users/Edit/5
+        // GET: Users/Edit
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -135,9 +134,7 @@ namespace MyAspTest.Controllers
             return View(user);
         }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Users/Edit        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Surname,Phone,PositionId,StatusId")] User user)
@@ -172,7 +169,7 @@ namespace MyAspTest.Controllers
             return View(user);
         }
 
-        // GET: Users/Delete/5
+        // GET: Users/Delete
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

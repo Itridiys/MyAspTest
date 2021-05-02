@@ -22,7 +22,7 @@ namespace MyAspTest.Controllers
             return View();
         }
 
-        // GET: PositionViewmodelController/Details/5
+        // GET: PositionViewmodelController/Details
         public ActionResult Details(int id)
         {
             return View();
@@ -53,13 +53,13 @@ namespace MyAspTest.Controllers
             
         }
 
-        // GET: PositionViewmodelController/Edit/5
+        // GET: PositionViewmodelController/Edit
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: PositionViewmodelController/Edit/5
+        // POST: PositionViewmodelController/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -74,13 +74,13 @@ namespace MyAspTest.Controllers
             }
         }
 
-        // GET: PositionViewmodelController/Delete/5
+        // GET: PositionViewmodelController/Delete
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: PositionViewmodelController/Delete/5
+        // POST: PositionViewmodelController/Delete
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
