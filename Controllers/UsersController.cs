@@ -32,9 +32,9 @@ namespace MyAspTest.Controllers
                 users = users.Where(p => p.Name.Contains(name));
             }
 
-            List<Position> companies = _context.Positions.ToList();
+            List<Position> positions = _context.Positions.ToList();
             // устанавливаем начальный элемент, который позволит выбрать всех
-            companies.Insert(0, new Position() { Name = "Все", Id = 0 });
+            positions.Insert(0, new Position() { Name = "Все", Id = 0 });
 
             List<Status> status = _context.Statuses.ToList();
             status.Insert(0, new Status { Name = "Все", Id = 0 });
@@ -42,8 +42,8 @@ namespace MyAspTest.Controllers
             UserFilterViewModel viewModel = new UserFilterViewModel
             {
                 Users = users.ToList(),
-                PositionSelectList = new SelectList(companies, "Id", "Name"),
-                StatusList = new SelectList(companies, "Id", "Name")
+                PositionSelectList = new SelectList(positions, "Id", "Name"),
+                StatusList = new SelectList(positions, "Id", "Name")
             };
             return View(viewModel);
         }
