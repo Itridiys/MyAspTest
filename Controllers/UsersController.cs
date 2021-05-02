@@ -164,8 +164,8 @@ namespace MyAspTest.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PositionId"] = new SelectList(_context.Positions, "Id", "Id", user.PositionId);
-            ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Id", user.StatusId);
+            ViewData["PositionId"] = new SelectList(_context.Positions, "Id", "Name", user.PositionId);
+            ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name", user.StatusId);
             return View(user);
         }
 
