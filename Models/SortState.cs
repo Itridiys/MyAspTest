@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MyAspTest.Models
+﻿namespace MyAspTest.Models
 {
     public enum SortState
     {
@@ -11,7 +6,5 @@ namespace MyAspTest.Models
         NameDesc,   // по имени по убыванию
         SurNameAsc, // по возрасту по возрастанию
         SurNameDesc,    // по возрасту по убыванию
-        //CompanyAsc, // по компании по возрастанию
-        //CompanyDesc // по компании по убыванию
     }
 }
