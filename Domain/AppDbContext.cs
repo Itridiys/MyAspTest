@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using MyAspTest.Models;
 
@@ -57,6 +58,21 @@ namespace MyAspTest.Domain
                  new Position {Id = 2, Name = "Специалист 1С", Salary = 30000, MaxNumber = 10, DepartmentId = 2 }
             });
 
+            modelBuilder.Entity<UserInfo>().HasData(new UserInfo[]
+            {
+                new UserInfo {Id = 1, HireTime = DateTime.Now, CurrentTime = DateTime.Now, FireTime = DateTime.MinValue, IsWorking = true},
+                new UserInfo {Id = 2, HireTime = DateTime.Now, CurrentTime = DateTime.Now, FireTime = DateTime.MinValue, IsWorking = true},
+                new UserInfo {Id = 3, HireTime = DateTime.Now, CurrentTime = DateTime.Now, FireTime = DateTime.MinValue, IsWorking = true},
+            });
+
+            modelBuilder.Entity<User>().HasData(new User[]
+            {
+                new User {ID = 1, Name = "Никита", Surname = "Антонов", Phone = "891912321", PositionId = 1, StatusId = 1, UserInfoId = 1},
+                new User {ID = 1, Name = "Мария", Surname = "Иванова", Phone = "892291312", PositionId = 2, StatusId = 1, UserInfoId = 2},
+                new User {ID = 1, Name = "Виолета", Surname = "Смирнова", Phone = "899938958", PositionId = 2, StatusId = 1, UserInfoId = 3},
+            });
+
+            
 
         }
 
