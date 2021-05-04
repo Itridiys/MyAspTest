@@ -28,13 +28,7 @@ namespace MyAspTest.Models
         public virtual UserInfo UserInfo { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.NotMapped]
-        public Position UserPosition
-        {
-            get
-            {
-                return DataWorker.GetPositionById(PositionId);
-            }
-        }
+        public Position UserPosition => DataWorker.GetPositionById(PositionId);
 
         //[System.ComponentModel.DataAnnotations.Schema.NotMapped]
         //public UserInfo UserInformation
@@ -46,12 +40,6 @@ namespace MyAspTest.Models
         //}
 
         [System.ComponentModel.DataAnnotations.Schema.NotMapped]
-        public Status UserStatus
-        {
-            get
-            {
-                return DataWorker.GetUserStatusById(StatusId);
-            }
-        }
+        public Status UserStatus => DataWorker.GetUserStatusById(StatusId);
     }
 }

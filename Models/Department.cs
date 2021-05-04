@@ -12,12 +12,6 @@ namespace MyAspTest.Models
         public List<Position> Positions { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.NotMapped]
-        public List<Position> DepartmentPositions
-        {
-            get
-            {
-                return DataWorker.GetdPositionsBydepartmentId(Id);
-            }
-        }
+        public List<Position> DepartmentPositions => DataWorker.GetdPositionsBydepartmentId(Id);
     }
 }

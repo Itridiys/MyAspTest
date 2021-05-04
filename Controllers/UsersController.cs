@@ -55,9 +55,27 @@ namespace MyAspTest.Controllers
         }
 
         // GET: Users
-        public async Task<IActionResult> Index(SortState sortOrder = SortState.NameAsc)
+        public async Task<IActionResult> Index(int? position, int? stat, string name, SortState sortOrder = SortState.NameAsc,  int page = 1)
         {
-            IQueryable<User> users = _context.Users.Include(u => u.Position).Include(u => u.Status);
+            int pageSize = 3;
+
+            IQueryable<User> users = _context.Users.Include(u => u.Position).Include(u => u.Status)
+                .OrderBy(u => u.ID);
+
+            if (position != null && position != 0)
+            {
+                users = users.Where(p => p.PositionId == position);
+            }
+
+            if (stat != null && stat != 0)
+            {
+                users = users.Where(p => p.StatusId == stat);
+            }
+
+            if (!String.IsNullOrEmpty(name))
+            {
+                users = users.Where(p => p.Name.Contains(name));
+            }
 
             users = sortOrder switch
             {
@@ -66,14 +84,18 @@ namespace MyAspTest.Controllers
                 SortState.SurNameDesc => users.OrderByDescending(s => s.Surname),
                 _ => users.OrderBy(s => s.Name),
             };
+
+            var count = await users.CountAsync();
+            var intems = await users.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
             IndexViewModel viewModel = new IndexViewModel
             {
-                Users = await users.AsNoTracking().ToListAsync(),
-                SortViewModel = new SortViewModel(sortOrder)
+                PaginIndexViewModel = new PaginIndexViewModel(count, page, pageSize),
+                SortViewModel = new SortViewModel(sortOrder),
+                FilterViewModel = new FilterViewModel(_context.Positions.ToList(),position,_context.Statuses.ToList(),stat,name ),
+                Users = intems, 
             };
 
-            //var appDbContext = _context.Users.Include(u => u.Position).Include(u => u.Status);
-            //await appDbContext.ToListAsync()
             return View(viewModel);
         }
 

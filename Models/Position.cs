@@ -20,21 +20,9 @@ namespace MyAspTest.Models
         public virtual Department Department { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.NotMapped]
-        public Department PositionDepartment
-        {
-            get
-            {
-                return DataWorker.GetdDepartmentById(DepartmentId);
-            }
-        }
+        public Department PositionDepartment => DataWorker.GetdDepartmentById(DepartmentId);
 
         [System.ComponentModel.DataAnnotations.Schema.NotMapped]
-        public List<User> PositionUsers
-        {
-            get
-            {
-                return DataWorker.GetdUsersByPositionId(Id);
-            }
-        }
+        public List<User> PositionUsers => DataWorker.GetdUsersByPositionId(Id);
     }
 }

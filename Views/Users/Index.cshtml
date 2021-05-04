@@ -1,6 +1,8 @@
 ﻿@using MyAspTest.ViewModel
+@using MyAspTest.TagHelpers
 @model IndexViewModel
-@addTagHelper *, MyAspTest
+
+@*@addTagHelper *, MyAspTest*@
 
 @{
     ViewData["Title"] = "Index";
@@ -8,9 +10,13 @@
 
 
 <style>
-    @@font-face{font-family:'FontAwesome';src:url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2') format('woff2'),
-                                              url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff') format('woff'),
-                                              url('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/fonts/fontawesome-webfont.ttf') format('truetype');font-weight:normal;font-style:normal}
+    @@font-face {
+        font-family: 'FontAwesome';
+        src: url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2') format('woff2'), url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff') format('woff'), url('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/fonts/fontawesome-webfont.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal
+    }
+
     .glyphicon {
         display: inline-block;
         font: normal normal normal 14px/1 FontAwesome;
@@ -19,10 +25,11 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale
     }
+
     .glyphicon-chevron-down:before {
         content: "\f078";
     }
- 
+
     .glyphicon-chevron-up:before {
         content: "\f077";
     }
@@ -34,22 +41,36 @@
     <a asp-controller="UserViewModels" asp-action="Create">Добавить пользователя</a>
 </p>
 
-<p>
-    <a asp-controller="Users" asp-action="FilteredIndex">Список Пользователей с фильтрами</a>
-</p>
+
+<form method="get">
+    <div class="form-inline">
+        <label class="control-label">Имя: </label>
+        <input name="name" value="@Model.FilterViewModel.SelectedName" class="form-control" />
+
+        <label class="control-label">Должность: </label>
+        <select name="position" asp-items="Model.FilterViewModel.Positions" class="form-control"></select>
+
+        <label class="control-label">Статус: </label>
+        <select name="stat" asp-items="Model.FilterViewModel.Statuses" class="form-control"></select>
+
+        <input type="submit" value="Фильтр" class="btn btn-outline-dark" />
+    </div>
+</form>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                <sort-header action="Index" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current" property="@Model.SortViewModel.NameSort">
-                Имя
-                </sort-header>
+                <a asp-action="Index" asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
+                   asp-route-name="@(Model.FilterViewModel.SelectedName)"
+                   asp-route-position="@(Model.FilterViewModel.SelectedPosition)"
+                   asp-route-stat="@(Model.FilterViewModel.SelectedStatus)">Имя</a>
             </th>
             <th>
-                <sort-header action="Index" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current" property="@Model.SortViewModel.SurNameSort">
-                    Фамилия
-                </sort-header>
+                <a asp-action="Index" asp-route-sortOrder="@(Model.SortViewModel.SurNameSort)"
+                   asp-route-name="@(Model.FilterViewModel.SelectedName)"
+                   asp-route-position="@(Model.FilterViewModel.SelectedPosition)"
+                   asp-route-stat="@(Model.FilterViewModel.SelectedStatus)">Фамилия</a>
             </th>
             <th>
                 Телефон
@@ -64,29 +85,56 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Users) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Surname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Position.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status.Name)
-            </td>
-            <td>
-                <a asp-controller="UserViewModels" asp-action="Edit" asp-route-id="@item.ID" asp-route-infoId="@item.UserInfoId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-controller="UserViewModels" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Users)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status.Name)
+                </td>
+                <td>
+                    <a asp-controller="UserViewModels" asp-action="Edit" asp-route-id="@item.ID" asp-route-infoId="@item.UserInfoId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-controller="UserViewModels" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@if (Model.PaginIndexViewModel.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PaginIndexViewModel.PageNumber - 1)"
+       asp-route-name="@(Model.FilterViewModel.SelectedName)"
+       asp-route-position="@(Model.FilterViewModel.SelectedPosition)"
+       asp-route-stat="@(Model.FilterViewModel.SelectedStatus)"
+       asp-route-sortorder="@(Model.SortViewModel.Current)"
+       class="btn  btn-outline-dark">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.PaginIndexViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PaginIndexViewModel.PageNumber + 1)"
+       asp-route-name="@(Model.FilterViewModel.SelectedName)"
+       asp-route-position="@(Model.FilterViewModel.SelectedPosition)"
+       asp-route-stat="@(Model.FilterViewModel.SelectedStatus)"
+       asp-route-sortorder="@(Model.SortViewModel.Current)"
+       class="btn  btn-outline-dark">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
