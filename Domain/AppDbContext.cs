@@ -68,8 +68,8 @@ namespace MyAspTest.Domain
             modelBuilder.Entity<User>().HasData(new User[]
             {
                 new User {ID = 1, Name = "Никита", Surname = "Антонов", Phone = "891912321", PositionId = 1, StatusId = 1, UserInfoId = 1},
-                new User {ID = 1, Name = "Мария", Surname = "Иванова", Phone = "892291312", PositionId = 2, StatusId = 1, UserInfoId = 2},
-                new User {ID = 1, Name = "Виолета", Surname = "Смирнова", Phone = "899938958", PositionId = 2, StatusId = 1, UserInfoId = 3},
+                new User {ID = 2, Name = "Мария", Surname = "Иванова", Phone = "892291312", PositionId = 2, StatusId = 1, UserInfoId = 2},
+                new User {ID = 3, Name = "Виолета", Surname = "Смирнова", Phone = "899938958", PositionId = 2, StatusId = 2, UserInfoId = 3},
             });
 
             
@@ -78,34 +78,7 @@ namespace MyAspTest.Domain
 
 
     }
-
-    //public class DbInitializer : SqlServerCreateDatabaseOperation
-    //{
-    //    protected void Seed(AppDbContext dbContext)
-    //    {
-    //        Status worStatus = new Status { Name = "Работает" };
-    //        Status hollydayStatus = new Status { Name = "В отпуске" };
-    //        Status sickStatus = new Status { Name = "На больничном" };
-    //        Status fireStatus = new Status { Name = "Уволен" };
-
-    //        dbContext.Statuses.AddRange(worStatus, hollydayStatus, sickStatus, fireStatus);
-    //        dbContext.SaveChanges();
-
-    //        Position itPosition = new Position { Name = "Программист", Salary = 70000, MaxNumber = 3, DepartmentId = 1 };
-    //        Position counterPosition = new Position { Name = "Специалист 1С", Salary = 30000, MaxNumber = 10, DepartmentId = 2 };
-
-    //        dbContext.Positions.AddRange(itPosition, counterPosition);
-    //        dbContext.SaveChanges();
-
-    //        Department itDepartment = new Department { Name = "ИТ Отдел" };
-    //        Department counterDepartment = new Department { Name = "Бухгалтерия" };
-
-    //        dbContext.Departments.AddRange(itDepartment, counterDepartment);
-    //        dbContext.SaveChanges();
-    //    }
-
-
-    //}
+    
 
 
 }
