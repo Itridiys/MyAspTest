@@ -17,10 +17,10 @@ namespace MyAspTest.ViewModel
             SelectedPosition = position;
             SelectedName = name;
         }
-        public SelectList Positions { get; private set; } // список компаний
+        public SelectList Positions { get; private set; } 
         public SelectList Statuses { get; private set; }
-        public int? SelectedPosition { get; private set; }   // выбранная компания
+        public int? SelectedPosition { get; private set; }   
         public int? SelectedStatus { get; private set; }
-        public string SelectedName { get; private set; }    // введенное имя
+        public string SelectedName { get; private set; }    
     }
 }

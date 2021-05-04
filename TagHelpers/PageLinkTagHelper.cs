@@ -30,7 +30,7 @@ namespace MyAspTest.TagHelpers
             IUrlHelper urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
             output.TagName = "div";
 
-            // набор ссылок будет представлять список ul
+            // набор ссылок 
             TagBuilder tag = new TagBuilder("ul");
             tag.AddCssClass("pagination");
 
