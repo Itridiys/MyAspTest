@@ -20,20 +20,25 @@ namespace MyAspTest.Controllers
             _context = context;
         }
 
-        public ActionResult FilteredIndex(int? company, string name)
+        public ActionResult FilteredIndex(int? position, int? stat,  string name)
         {
             IQueryable<User> users = _context.Users.Include(u => u.Position).Include(u => u.Status);
-            if (company != null && company != 0)
+            if (position != null && position != 0)
             {
-                users = users.Where(p => p.PositionId == company);
+                users = users.Where(p => p.PositionId == position);
             }
+
+            if (stat !=null && stat !=0)
+            {
+                users = users.Where(p => p.StatusId == stat);
+            }
+
             if (!String.IsNullOrEmpty(name))
             {
                 users = users.Where(p => p.Name.Contains(name));
             }
 
             List<Position> positions = _context.Positions.ToList();
-            
             positions.Insert(0, new Position() { Name = "Все", Id = 0 });
 
             List<Status> status = _context.Statuses.ToList();
