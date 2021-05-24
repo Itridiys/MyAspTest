@@ -20,7 +20,7 @@ namespace MyAspTest.Controllers
             _context = context;
         }
 
-        public ActionResult FilteredIndex(int? position, int? stat,  string name)
+        public ActionResult FilteredIndex(int? position, int? stat, string name)
         {
             IQueryable<User> users = _context.Users.Include(u => u.Position).Include(u => u.Status);
             if (position != null && position != 0)
@@ -28,7 +28,7 @@ namespace MyAspTest.Controllers
                 users = users.Where(p => p.PositionId == position);
             }
 
-            if (stat !=null && stat !=0)
+            if (stat != null && stat != 0)
             {
                 users = users.Where(p => p.StatusId == stat);
             }
@@ -43,24 +43,49 @@ namespace MyAspTest.Controllers
 
             List<Status> status = _context.Statuses.ToList();
             status.Insert(0, new Status { Name = "Все", Id = 0 });
-            
+
 
             UserFilterViewModel viewModel = new UserFilterViewModel
             {
                 Users = users.ToList(),
                 PositionSelectList = new SelectList(positions, "Id", "Name"),
-                StatusList = new SelectList(status, "Id", "Name") 
+                StatusList = new SelectList(status, "Id", "Name")
             };
             return View(viewModel);
         }
 
-        // GET: Users
-        public async Task<IActionResult> Index(int? position, int? stat, string name, SortState sortOrder = SortState.NameAsc,  int page = 1)
+        public ActionResult GetUsers([FromQuery] UserParameters userParameters, int page = 1)
         {
-            int pageSize = 3;
+            //var result = _context.Users.OrderBy(u => u.ID).Skip((userParameters.PageNumber - 1) * userParameters.PageSize).Take(userParameters.PageSize);
+            // var users = DataWorker.GetAllUsers(userParameters);
 
-            IQueryable<User> users = _context.Users.Include(u => u.Position).Include(u => u.Status)
+            Pagination pagination = new Pagination
+            {
+                PageItemsAmount = 10,
+                CurrentPage = page,
+                ControllerName = "Users",
+                ShowLastAndFirstPages = true,
+                ActionName = "GetUsers",
+                RouteParams = new Dictionary<string, object> { { "section", "TV" } },
+                Params = new Dictionary<string, object> { { "HDTV", "yes" } }
+            };
+
+            pagination.ItemsAmount = 1024;
+            pagination.Refresh();
+            ViewBag.Pagination = pagination;
+            return View(pagination);
+        }
+
+        // GET: Users
+        public async Task<IActionResult> Index(int? position, int? stat, string name, SortState sortOrder = SortState.NameAsc, int page = 1)
+        {
+            int pageSize = 2;
+
+            IQueryable<User> users = _context.Users
+                .Include(u => u.Position)
+                .Include(x => x.Status)
                 .OrderBy(u => u.ID);
+
 
             if (position != null && position != 0)
             {
@@ -88,12 +113,27 @@ namespace MyAspTest.Controllers
             var count = await users.CountAsync();
             var intems = await users.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
+            Pagination pagination = new Pagination
+            {
+                PageItemsAmount = pageSize,
+                CurrentPage = page,
+                ControllerName = "Users",
+                ShowLastAndFirstPages = true,
+                ActionName = "Index",
+                RouteParams = new Dictionary<string, object> { { "section", "TV" } },
+                Params = new Dictionary<string, object> { { "HDTV", "yes" } }
+            };
+
+            pagination.ItemsAmount = count;
+            pagination.Refresh();
+
             IndexViewModel viewModel = new IndexViewModel
             {
                 PaginIndexViewModel = new PaginIndexViewModel(count, page, pageSize),
                 SortViewModel = new SortViewModel(sortOrder),
-                FilterViewModel = new FilterViewModel(_context.Positions.ToList(),position,_context.Statuses.ToList(),stat,name ),
-                Users = intems, 
+                Pagination = pagination,
+                FilterViewModel = new FilterViewModel(_context.Positions.ToList(), position, _context.Statuses.ToList(), stat, name),
+                Users = intems,
             };
 
             return View(viewModel);

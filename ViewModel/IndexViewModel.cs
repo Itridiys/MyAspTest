@@ -7,6 +7,8 @@ namespace MyAspTest.ViewModel
     {
         public IEnumerable<User> Users { get; set; }
         public PaginIndexViewModel PaginIndexViewModel { get; set; }
+        //AdvancedPagination
+        public Pagination Pagination { get; set; }
         public FilterViewModel FilterViewModel { get; set; }
         public SortViewModel SortViewModel { get; set; }
         

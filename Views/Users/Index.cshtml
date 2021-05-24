@@ -41,6 +41,10 @@
     <a asp-controller="UserViewModels" asp-action="Create">Добавить пользователя</a>
 </p>
 
+<p>
+    <a asp-controller="Users" asp-action="GetUsers"> ЛОХ </a>
+</p>
+
 
 <form method="get">
     <div class="form-group form-inline">
@@ -59,59 +63,76 @@
 
 <table class="table">
     <thead>
-    <tr>
-        <th>
-            <a asp-action="Index" asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
-               asp-route-name="@(Model.FilterViewModel.SelectedName)"
-               asp-route-position="@(Model.FilterViewModel.SelectedPosition)"
-               asp-route-stat="@(Model.FilterViewModel.SelectedStatus)">Имя</a>
-        </th>
-        <th>
-            <a asp-action="Index" asp-route-sortOrder="@(Model.SortViewModel.SurNameSort)"
-               asp-route-name="@(Model.FilterViewModel.SelectedName)"
-               asp-route-position="@(Model.FilterViewModel.SelectedPosition)"
-               asp-route-stat="@(Model.FilterViewModel.SelectedStatus)">Фамилия</a>
-        </th>
-        <th>
-            Телефон
-        </th>
-        <th>
-            Должность
-        </th>
-        <th>
-            Статус
-        </th>
-        <th></th>
-    </tr>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
+                   asp-route-name="@(Model.FilterViewModel.SelectedName)"
+                   asp-route-position="@(Model.FilterViewModel.SelectedPosition)"
+                   asp-route-stat="@(Model.FilterViewModel.SelectedStatus)">Имя</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@(Model.SortViewModel.SurNameSort)"
+                   asp-route-name="@(Model.FilterViewModel.SelectedName)"
+                   asp-route-position="@(Model.FilterViewModel.SelectedPosition)"
+                   asp-route-stat="@(Model.FilterViewModel.SelectedStatus)">Фамилия</a>
+            </th>
+            <th>
+                Телефон
+            </th>
+            <th>
+                Должность
+            </th>
+            <th>
+                Статус
+            </th>
+            <th></th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model.Users)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Surname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Position.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status.Name)
-            </td>
-            <td>
-                <a asp-controller="UserViewModels" asp-action="Edit" asp-route-id="@item.ID" asp-route-infoId="@item.UserInfoId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-controller="UserViewModels" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-    }
+        @foreach (var item in Model.Users)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status.Name)
+                </td>
+                <td>
+                    <a asp-controller="UserViewModels" asp-action="Edit" asp-route-id="@item.ID" asp-route-infoId="@item.UserInfoId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-controller="UserViewModels" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+
+<ul class="pagination">
+    @for (var i = 0; i < Model.Pagination.Pages.Count; i++)
+    {
+        <li class="@(Model.Pagination.Pages[i].IsCurrenPage ? "active" : "") @(Model.Pagination.Pages[i].Disabled ?
+                                                                                 "disabled" : "")">
+            <a class="btn  btn-outline-dark" href="@Url.RouteUrl(Model.Pagination.Pages[i].RouteValues.ToRouteValueDictionary())">
+                @Html.Raw(Model.Pagination.Pages[i].Caption)
+            </a>
+        </li>
+    }
+</ul>
+
+<div class="pull-right">
+    Всего @Model.Pagination.ItemsAmount / На странице @Model.Pagination.CurrentPageItemsAmount
+</div>
 
 <page-link pagin-model="Model.PaginIndexViewModel" page-action="Index"
            page-url-name="@(Model.FilterViewModel.SelectedName)"

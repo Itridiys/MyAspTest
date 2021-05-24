@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using MyAspTest.Domain;
 
 namespace MyAspTest.Models
@@ -34,8 +35,6 @@ namespace MyAspTest.Models
             }
         }
 
-        
-
         public static List<User> GetdUsersByPositionId(int id)
         {
             using (AppDbContext db = new AppDbContext())
@@ -49,7 +48,16 @@ namespace MyAspTest.Models
         {
             using (AppDbContext db = new AppDbContext())
             {
-                var result = db.Users.ToList();
+                var result = db.Users.OrderBy(u =>u.ID).ToList();
+                return result;
+            }
+        }
+
+        public static IQueryable<User> GetAllUsers(UserParameters userParameters)
+        {
+            using (AppDbContext db = new AppDbContext())
+            {
+                var result = db.Users.OrderBy(u => u.ID).Skip((userParameters.PageNumber - 1) * userParameters.PageSize).Take(userParameters.PageSize);
                 return result;
             }
         }
