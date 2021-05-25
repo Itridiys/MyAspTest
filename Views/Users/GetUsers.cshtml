@@ -1,9 +1,0 @@
-﻿
-@if (Model.LastPage > 1)
-{
-    <div class="row">
-        <div class="col-md-12 text-center">
-            @{ Html.RenderPartial("_Pagination", (Pagination)ViewBag.Pagination); }
-        </div>
-    </div>
-}

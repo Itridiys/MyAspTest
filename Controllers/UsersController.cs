@@ -54,37 +54,17 @@ namespace MyAspTest.Controllers
             return View(viewModel);
         }
 
-        public ActionResult GetUsers([FromQuery] UserParameters userParameters, int page = 1)
-        {
-            //var result = _context.Users.OrderBy(u => u.ID).Skip((userParameters.PageNumber - 1) * userParameters.PageSize).Take(userParameters.PageSize);
-            // var users = DataWorker.GetAllUsers(userParameters);
-
-            Pagination pagination = new Pagination
-            {
-                PageItemsAmount = 10,
-                CurrentPage = page,
-                ControllerName = "Users",
-                ShowLastAndFirstPages = true,
-                ActionName = "GetUsers",
-                RouteParams = new Dictionary<string, object> { { "section", "TV" } },
-                Params = new Dictionary<string, object> { { "HDTV", "yes" } }
-            };
-
-            pagination.ItemsAmount = 1024;
-            pagination.Refresh();
-            ViewBag.Pagination = pagination;
-            return View(pagination);
-        }
-
         // GET: Users
         public async Task<IActionResult> Index(int? position, int? stat, string name, SortState sortOrder = SortState.NameAsc, int page = 1)
         {
-            int pageSize = 2;
+            int pageSize = 3;
 
             IQueryable<User> users = _context.Users
                 .Include(u => u.Position)
                 .Include(x => x.Status)
-                .OrderBy(u => u.ID);
+                .OrderBy(u => u.ID)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize);
 
 
             if (position != null && position != 0)
@@ -110,8 +90,8 @@ namespace MyAspTest.Controllers
                 _ => users.OrderBy(s => s.Name),
             };
 
-            var count = await users.CountAsync();
-            var intems = await users.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var count = await _context.Users.CountAsync();
+            var intems = await users.ToListAsync();
 
             Pagination pagination = new Pagination
             {

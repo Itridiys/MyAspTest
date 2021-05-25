@@ -41,10 +41,6 @@
     <a asp-controller="UserViewModels" asp-action="Create">Добавить пользователя</a>
 </p>
 
-<p>
-    <a asp-controller="Users" asp-action="GetUsers"> ЛОХ </a>
-</p>
-
 
 <form method="get">
     <div class="form-group form-inline">
@@ -130,10 +126,6 @@
     }
 </ul>
 
-<div class="pull-right">
-    Всего @Model.Pagination.ItemsAmount / На странице @Model.Pagination.CurrentPageItemsAmount
-</div>
-
 <page-link pagin-model="Model.PaginIndexViewModel" page-action="Index"
            page-url-name="@(Model.FilterViewModel.SelectedName)"
            page-url-position="@(Model.FilterViewModel.SelectedPosition)"
@@ -166,3 +158,8 @@
         <i class="glyphicon glyphicon-chevron-right"></i>
     </a>
 }
+
+
+<div class="pull-right">
+    Всего @Model.Pagination.ItemsAmount / На странице @Model.Pagination.CurrentPageItemsAmount
+</div>
